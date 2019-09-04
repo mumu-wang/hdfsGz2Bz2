@@ -45,7 +45,8 @@ class Convert {
     void convert() {
         Configuration configuration = new Configuration();
         FileSystem fs = FileSystem.get(URI.create(host), configuration);
-        log.info("start to convert ");
+        log.info("Start to convert ");
+        long allStartTime = System.currentTimeMillis();
         FileStatus[] fileStatuses = fs.listStatus(new Path(path));
 
         ExecutorService executors = Executors.newCachedThreadPool();
@@ -63,7 +64,9 @@ class Convert {
         for (Future future : futures) {
             future.get();
         }
-        log.info("finish to convert.");
+        long allFinishTime = System.currentTimeMillis();
+        log.info("Finish to convert.");
+        log.info("All finish time is :" + (allFinishTime - allStartTime) / 1000);
         log.info("All procedures are done. Bye !");
         executors.shutdown();
     }
@@ -95,8 +98,8 @@ class Convert {
         fs.delete(file.getPath(), false);
 
         long stop = System.currentTimeMillis();
-        long time = (stop - start) / 1000 / 60;
-        log.info(String.join(" : ", file.getPath().getName(), "finish with " + time + "min"));
+        long time = (stop - start) / 1000;
+        log.info(String.join(" : ", file.getPath().getName(), "Finish with " + time + " sec"));
     }
 }
 
