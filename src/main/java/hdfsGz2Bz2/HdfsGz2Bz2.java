@@ -2,9 +2,9 @@ package hdfsGz2Bz2;
 
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.cli.BasicParser;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Options;
 import org.apache.commons.lang3.StringUtils;
 
@@ -20,10 +20,10 @@ public class HdfsGz2Bz2 {
         Options options = new Options();
         options.addOption("h", "host", true, "-h input host of hdfs.")
                 .addOption("p", "path", true, "-p input path of hdfs.");
-        CommandLineParser parser = new DefaultParser();
+        CommandLineParser parser = new BasicParser();
         CommandLine cmd = parser.parse(options, args);
         //TBD
-        options.getOptions().forEach(x -> System.out.println(x.getDescription()));
+        options.getOptions().forEach(System.out::println);
         if (cmd.hasOption("h") && StringUtils.startsWith(cmd.getOptionValue("h"), "hdfs://")) {
             mapArgs.put("h", cmd.getOptionValue("h"));
         }
